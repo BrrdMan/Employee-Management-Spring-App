@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Employee Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	  crossorigin="anonymous">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">	  
+	<link rel="stylesheet" th:href="@{/css/formatting.css}">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$("#datepicker").datepicker({dateFormat:"yyyy-MM-dd"});
+		});	
+	</script>
+</head>
+
+<body>
+	<div class="container mt-3">
+	<a class="btn btn-info btn-sm" href="/home">Home</a>
+	<h2 class="text-center">Registration Form</h2>
+	<form th:action="@{/home/save}" method="post" th:object="${employee}">
+		<input type="hidden" th:field="${employee.empId}" />
+		
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input class="form-control" id="name" type="text" th:field="*{name}" />
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Name error</p>
+		</div>
+		
+		<div class="form-group">
+			<label for="address">Address</label>
+			<textarea class="form-control" id="address" th:field="*{address}" placeholder="Enter your address"></textarea>
+			<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger">Address error</p>
+		</div>
+		
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input class="form-control" id="email" type="text" th:field="*{email}" />
+			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Email error</p>
+		</div>
+		
+		<div class="row">
+		<div class="col">
+			<label for="datepicker">Date of Birth</label>
+			<input class="form-control" id="datepicker" type="text" th:field="*{dob}" />
+			<p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="text-danger">DOB error</p>
+		</div>
+		<div class="col">
+		<p>Gender</p>
+			<span th:each="gen: ${gender_value}">
+				<input type="radio" th:field="*{gender}" th:value="${gen}" />
+			<label th:text="${gen}">Gender</label>
+			</span>
+			<p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="text-danger">Gender error</p>
+		</div>
+		</div>	
+
+		<button class="btn btn-info btn-sm" type="submit">Submit</button>
+		<button class="btn btn-danger btn-sm" type="reset">Reset</button>
+	</form>
+	</div>
+</body>

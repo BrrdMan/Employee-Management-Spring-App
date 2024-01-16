@@ -1,0 +1,21 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2.console
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      format-sql: true  
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never         
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root  
+    driver-class-name: org.h2.Driver
+  thymeleaf:
+    cache: false  

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Employee Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	  crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/formatting.css}">
+</head>
+
+<body>
+	<div class="container mt-2">
+	<h1 class="text-center">Employee Database</h1>
+	<table class="table table-bordered table-striped mt-2">
+		<thead class="thead-dark">
+			<tr>
+				<th>
+					<a th:href="@{'/home/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Name</a>
+				</th>
+				<th>Email</th>
+				<th>Date of Birth</th>
+				<th>Gender</th>
+				<th>Address</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="emp : ${listEmployees}">
+				<td th:text="${emp.name}" />
+				<td th:text="${emp.email}" />
+				<td th:text="${emp.dob}" />
+				<td th:text="${emp.gender}" />
+				<td th:text="${emp.address}" />
+				<td>
+					<a href="" class="btn btn-info btn-sm" th:href="@{/home/update(id=${emp.empId})}">Edit</a>
+					<a href="" class="btn btn-danger btn-sm" th:href="@{/home/delete(id=${emp.empId})}"
+					onclick="if(!(confirm('Delete this employee?'))) return false">Delete</a>
+				</td>	
+		</tbody>		
+	</table>
+	
+	<div th:if="${totalPages > 1}">
+		<div class="row col-sm-10">
+			<div class="col-sm-2">Total Rows: [[${totalItems}]]</div>
+			
+			<div class="col-sm-1">
+				<span th:each="i : ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+					<span th:unless="${currentPage != i}">[[${i}]]</span>
+				</span>
+			</div>
+			
+			<div class="col-sm-1">
+				<a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+				<span th:unless="${currentPage < totalPages}">Next</span>
+			</div>
+			
+			<div class="col-sm-1">
+				<a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+			
+		</div>
+	</div>
+	<a th:href="@{/home/new}" class="btn btn-info btn-sm">New Employee</a>
+	</div>
+</body>
